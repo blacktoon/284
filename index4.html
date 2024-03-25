@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <table id="sudokuBoard"></table>
+    <button onclick="location.href='index5.html'">다음으로 이동</button>
+    <script>
+        const sudokuBoard = document.getElementById("sudokuBoard");
+        const board = [
+            [5, 3, 0, 0, 7, 0, 0, 0, 0],
+            [6, 0, 0, 1, 9, 5, 0, 0, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 0, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 0, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 0, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9]
+        ];
+
+        function createSudokuBoard() {
+            for (let i = 0; i < 9; i++) {
+                const row = document.createElement("tr");
+                for (let j = 0; j < 9; j++) {
+                    const cell = document.createElement("td");
+                    cell.textContent = board[i][j] === 0 ? "" : board[i][j];
+                    cell.contentEditable = board[i][j] === 0 ? true : false;
+                    cell.addEventListener("input", validateInput);
+                    row.appendChild(cell);
+                }
+                sudokuBoard.appendChild(row);
+            }
+        }
+
+        function validateInput(event) {
+            const value = parseInt(event.target.textContent);
+            const row = event.target.parentNode.rowIndex;
+            const col = event.target.cellIndex;
+            if (isNaN(value) || value < 1 || value > 9 || !isValidMove(row, col, value)) {
+                event.target.textContent = "";
+            }
+        }
+
+        function isValidMove(row, col, value) {
+            return isValidRow(row, value) && isValidCol(col, value) && isValidBox(row - row % 3, col - col % 3, value);
+        }
+
+        function isValidRow(row, value) {
+            return !board[row].includes(value);
+        }
+
+        function isValidCol(col, value) {
+            for (let i = 0; i < 9; i++) {
+                if (board[i][col] === value) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function isValidBox(startRow, startCol, value) {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[startRow + i][startCol + j] === value) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        createSudokuBoard();
+    </script>
+</body>
+</html>

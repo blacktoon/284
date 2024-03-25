@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Political Colors</title>
+    <style>
+        .color-option {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose Your Political Colors</h1>
+    <div id="colorOptions"></div>
+    <button onclick="location.href='index4.html'">다음으로 이동</button>
+    <script>
+        const colors = ["red", "blue", "green", "yellow", "orange", "purple"];
+
+        const colorOptionsDiv = document.getElementById("colorOptions");
+
+        colors.forEach(color => {
+            const colorOption = document.createElement("div");
+            colorOption.classList.add("color-option");
+            colorOption.style.backgroundColor = color;
+            colorOption.addEventListener("click", () => selectColor(color));
+            colorOptionsDiv.appendChild(colorOption);
+        });
+
+        function selectColor(color) {
+            alert("You selected: " + color);
+            // 여기서 선택된 색상을 사용하여 원하는 작업을 수행할 수 있습니다.
+        }
+    </script>
+</body>
+</html>
